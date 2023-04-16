@@ -4,9 +4,9 @@ import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import org.jetbrains.exposed.sql.Database
 import io.ktor.server.application.*
-import io.ktor.server.netty.*
+
 import ru.newtry.plugins.*
-import java.sql.DriverManager
+
 
 import ru.newtry.features.login.configureLoginRouting
 import ru.newtry.features.register.configureRegisterRouting
