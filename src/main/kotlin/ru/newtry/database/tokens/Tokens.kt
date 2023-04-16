@@ -10,7 +10,7 @@ import ru.newtry.database.users.UserDTO
 import ru.newtry.database.users.Users
 
 
-object Tokens: Table("tokens") {
+object Tokens: Table("tkns") {
     private val id = Tokens.varchar("id", 50)
     private val login = Tokens.varchar("login", 50)
     private val token = Tokens.varchar("token", 75)

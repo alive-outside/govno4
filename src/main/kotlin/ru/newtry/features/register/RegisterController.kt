@@ -13,11 +13,13 @@ import java.sql.DriverManager.println
 import java.util.*
 
 class RegisterController(private val call :ApplicationCall) {
-
     suspend fun registerNewUser(){
-
+        println("11111111")
         val registerReceiveRemote = call.receive<RegisterReceiveRemote>()
+
         val userDTO = Users.fetchUser(registerReceiveRemote.login)
+
+        println(userDTO?.password)
         if (userDTO != null){
             call.respond(HttpStatusCode.Conflict, "такой пользователь уже существует")
         } else {

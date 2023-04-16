@@ -7,7 +7,7 @@ import ru.newtry.database.users.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.lang.Exception.*
 
-object Users: Table("users") {
+object Users: Table("govno") {
     private val login = Users.varchar("login", 50)
     private val password = Users.varchar("password", 50)
     private val username = Users.varchar("username", 30)
@@ -30,6 +30,7 @@ object Users: Table("users") {
 
     }
     fun fetchUser(login:String):UserDTO?{
+
         return try{
             transaction {
                 val userModel = Users.select { Users.login.eq(login) }.single()
