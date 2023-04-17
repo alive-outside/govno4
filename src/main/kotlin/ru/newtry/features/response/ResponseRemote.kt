@@ -7,3 +7,8 @@ import kotlinx.serialization.Serializable
 data class ResponseRemote(
     val login: String
 )
+
+@Serializable
+data class ResponseRemoteResponse(
+    val wishlist: String
+)
