@@ -10,7 +10,7 @@ import java.lang.Exception.*
 object Users: Table("projusers") {
     private val login = Users.varchar("login", 50)
     private val password = Users.varchar("password", 50)
-    private val username = Users.varchar("username", 30)
+    //private val username = Users.varchar("username", 30)
     private val wishlist = Users.varchar("wishlist", 500)
 
     fun insert(UserDTO:UserDTO){
@@ -20,7 +20,7 @@ object Users: Table("projusers") {
                 Users.insert {
                     it[login] = UserDTO.login
                     it[password] = UserDTO.password
-                    it[username] = UserDTO.username
+                    //it[username] = UserDTO.username
                     it[wishlist] = UserDTO.wishlist
                     //it[email] = UserDTO.email ?: ""
                 }
@@ -37,7 +37,7 @@ object Users: Table("projusers") {
                 UserDTO(
                     login = userModel[Users.login],
                     password = userModel[password],
-                    username = userModel[username],
+                    //username = userModel[username],
                     wishlist = userModel[wishlist]
                     //email = userModel[email]
                 )
@@ -54,7 +54,7 @@ object Users: Table("projusers") {
                 UserDTO(
                     login = userModel[Users.login],
                     password = userModel[password],
-                    username = userModel[username],
+                    //username = userModel[username],
                     wishlist = userModel[wishlist]
                 )
             }
