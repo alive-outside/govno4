@@ -11,7 +11,7 @@ import io.ktor.http.*
 
 fun Application.configureResponseRouting(){
     routing {
-        get ("/getData"){
+        post ("/getData"){
             val rspController = ResponseController(call)
             rspController.fetchData()
         }
