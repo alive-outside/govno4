@@ -4,6 +4,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import org.jetbrains.exposed.sql.Database
 import io.ktor.server.application.*
+import ru.newtry.features.addition.configureAdditionRouting
 
 import ru.newtry.plugins.*
 
@@ -35,4 +36,5 @@ fun Application.module() {
     configureLoginRouting()
     configureSerialization()
     configureResponseRouting()
+    configureAdditionRouting()
 }

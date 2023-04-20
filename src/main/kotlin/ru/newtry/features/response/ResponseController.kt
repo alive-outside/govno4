@@ -14,7 +14,7 @@ class ResponseController(private val call :ApplicationCall ){
 
     suspend fun fetchData(){
         val receive = call.receive<ResponseRemote>()
-        val userDTO = Users.fetchData(receive.login)
+        val userDTO = Users.fetchUser(receive.login)
         var wishlist = userDTO?.wishlist.toString()
         call.respond(ResponseRemoteResponse(wishlist = wishlist))
 
