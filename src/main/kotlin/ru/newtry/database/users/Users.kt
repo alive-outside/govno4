@@ -10,20 +10,20 @@ object Users: Table("projusers") {
     private val password = Users.varchar("password", 50)
     private val wishlist = Users.varchar("wishlist", 500)
 
-    fun insert(UserDTO:UserDTO){
-            transaction {
-                Users.insert {
-                    it[login] = UserDTO.login
-                    it[password] = UserDTO.password
-                    it[wishlist] = UserDTO.wishlist
-                }
+    fun insert(UserDTO: UserDTO) {
+        transaction {
+            Users.insert {
+                it[login] = UserDTO.login
+                it[password] = UserDTO.password
+                it[wishlist] = UserDTO.wishlist
             }
-
+        }
 
 
     }
-    fun fetchUser(login:String):UserDTO?{
-        return try{
+
+    fun fetchUser(login: String): UserDTO? {
+        return try {
             transaction {
                 val userModel = Users.select { Users.login.eq(login) }.single()
                 UserDTO(
@@ -32,65 +32,67 @@ object Users: Table("projusers") {
                     wishlist = userModel[wishlist]
                 )
             }
-        } catch (e:Exception){
+        } catch (e: Exception) {
             null
         }
     }
-    fun addWish(wish:String, login: String):String{
-            return transaction {
-                val userModel = Users.select { Users.login.eq(login) }.single()
-                var wl:String = userModel[wishlist]
-                var num:Int = 1
-                for(a in wl){
-                    if (a.toString() == "\n"){
-                        num += 1
-                    }
+
+    fun addWish(wish: String, login: String): String {
+        return transaction {
+            val userModel = Users.select { Users.login.eq(login) }.single()
+            var wl: String = userModel[wishlist]
+            var num: Int = 1
+            for (a in wl) {
+                if (a.toString() == "\n") {
+                    num += 1
                 }
-                Users.update ({ Users.login eq login }) {
-                    it[wishlist] = wl + "$num.$wish" + "\n"
-                }
-                val a = Users.select { Users.login.eq(login) }.single()
-                a[wishlist]
             }
+            Users.update({ Users.login eq login }) {
+                it[wishlist] = wl + "$num.$wish" + "\n"
+                //govno error
+            }
+            val a = Users.select { Users.login.eq(login) }.single()
+            a[wishlist]
+        }
     }
 
-    fun deleteWish(wishnum:String, login:String):String{
-        transaction {
+    fun deleteWish(wishnum: String, login: String): String {
+        return transaction {
             val userModel = Users.select { Users.login.eq(login) }.single()
-            var wl1:String = userModel[wishlist]
+            var wl1: String = userModel[wishlist]
 
             //var wl1 = "1.\n2.\n3."
             var k = wishnum.toInt() - 1
-            var k2 = k +1
+            var k2 = k + 1
             var iEnd = 0
             var iStart = 0
             var i_wl = -1
 
             //1..........................................................
-            for(char in wl1){
-                if(wishnum == "1"){
+            for (char in wl1) {
+                if (wishnum == "1") {
                     iEnd = 0
                     break
                 }
                 i_wl++
-                if (char.toString() == "\n" || wl1[i_wl+1].toString() == wishnum){
+                if (char.toString() == "\n" || wl1[i_wl + 1].toString() == wishnum) {
                     k--
                 }
                 iEnd++
-                if (k <= 0){
+                if (k <= 0) {
                     break
                 }
             }
             //2...........................................................
             var fl2 = false
-            for(char in wl1){
-                if (fl2){
+            for (char in wl1) {
+                if (fl2) {
                     break
                 }
-                if (char.toString() == "\n"){
+                if (char.toString() == "\n") {
                     k2--
                 }
-                if (k2 == 0){
+                if (k2 == 0) {
                     fl2 = true
                 }
                 iStart++
@@ -109,13 +111,13 @@ object Users: Table("projusers") {
             var strs = wl_itog.split("\n").toTypedArray()
 
             var wl = charArrayOf()
-            var i2:Char = '1'
+            var i2: Char = '1'
             var L = 0
             var place = 0
             var S = 0
-            for(i in strs){
+            for (i in strs) {
                 print("\n")
-                for(el in i){
+                for (el in i) {
                     wl += el
                 }
                 wl += '\n'
@@ -123,7 +125,7 @@ object Users: Table("projusers") {
                 L = i.toString().length + 1
                 S = wl.size
                 place = S - L
-                if (place == S){
+                if (place == S) {
                     break
                 }
                 //println( i2)
@@ -134,30 +136,27 @@ object Users: Table("projusers") {
             var s = ""
             var i_last = 0
 
-            for(els in wl){
+            for (els in wl) {
                 i_last++
                 //if (i_last == S){
-                 //   break
+                //   break
                 //}
                 s += els.toString()
             }
             var s2 = ""
             var a = s.count()
-            for(el in 0..a-2){
-                s2+= s[el].toString()
+            for (el in 0..a - 2) {
+                s2 += s[el].toString()
             }
 
-            Users.update ({ Users.login eq login }) {
+            Users.update({ Users.login eq login }) {
                 it[wishlist] = s2
             }
-        println("////////////////////")
+            println("////////////////////")
             //delete last symbol
-        println(s2)
-
+            println(s2)
+            val bbb = Users.select { Users.login.eq(login) }.single()
+            bbb[wishlist]
         }
-        val a = Users.select { Users.login.eq(login) }.single()
-
-        return a[wishlist];
     }
-
 }
