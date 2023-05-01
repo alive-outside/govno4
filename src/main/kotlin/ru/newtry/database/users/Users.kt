@@ -37,7 +37,7 @@ object Users: Table("projusers") {
         }
     }
     fun addWish(wish:String, login: String):String{
-            transaction {
+            return transaction {
                 val userModel = Users.select { Users.login.eq(login) }.single()
                 var wl:String = userModel[wishlist]
                 var num:Int = 1
@@ -49,10 +49,9 @@ object Users: Table("projusers") {
                 Users.update ({ Users.login eq login }) {
                     it[wishlist] = wl + "$num.$wish" + "\n"
                 }
+                val a = Users.select { Users.login.eq(login) }.single()
+                a[wishlist]
             }
-        val a = Users.select { Users.login.eq(login) }.single()
-
-        return a[wishlist];
     }
 
     fun deleteWish(wishnum:String, login:String):String{
