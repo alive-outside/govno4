@@ -8,9 +8,7 @@ data class AdditionReceiveRemote(
     val login:String
 )
 
-/*
 @Serializable
-data class additionResponseRemote(
-
+data class AdditionResponseRemote(
+    val wishlistUpd: String
 )
-*/
