@@ -13,7 +13,7 @@ import ru.newtry.features.delete.DeleteResponseRemote
 class AdditionController (private val call:ApplicationCall){
     suspend fun addWish(){
         var receive = call.receive<AdditionReceiveRemote>()
-        Users.addWish(login = receive.login, wish = receive.wish)
+        //Users.addWish(login = receive.login, wish = receive.wish)
         var wl = Users.addWish(login = receive.login, wish = receive.wish)
         call.respond(AdditionResponseRemote(wishlistUpd = wl))
     }
