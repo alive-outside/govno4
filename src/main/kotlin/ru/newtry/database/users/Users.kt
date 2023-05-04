@@ -1,9 +1,7 @@
 package ru.newtry.database.users
 
 import org.jetbrains.exposed.sql.*
-import ru.newtry.database.users.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.lang.Exception.*
 
 object Users: Table("projusers") {
     private val login = Users.varchar("login", 50)
@@ -61,7 +59,7 @@ object Users: Table("projusers") {
             val userModel = Users.select { Users.login.eq(login) }.single()
             var wl1: String = userModel[wishlist]
 
-            //var wl1 = "1.\n2.\n3."
+            //var wl1 = "1.@\n2.@\n3.@\n4.@\n5.@\n6.@\n7.@\n8.@\n9.@\n10.@\n11.@\n12.@\n13.@\n14.@\n15.@\n"
             var k = wishnum.toInt() - 1
             var k2 = k + 1
             var iEnd = 0
@@ -109,54 +107,59 @@ object Users: Table("projusers") {
             //print("-------------------------")
             //var wl_itog = "1.Domik\n2.NewCar\n3.Machinka\n"
             var strs = wl_itog.split("\n").toTypedArray()
-
+            println(".................................")
             var wl = charArrayOf()
             var i2: Char = '1'
             var L = 0
             var place = 0
             var S = 0
-            for (i in strs) {
-                print("\n")
-                for (el in i) {
-                    wl += el
+            var str = ""
+            var k_n = 0
+            k_n = wishnum.toInt() - 1
+            var i = -1
+            var a:String = (wishnum.toInt()).toString()
+            var b:String = (a.toInt()-2).toString()
+            var wl_itog_2 = wl_itog
+            println("$wl_itog_2 .-.-.-.-.---.-.-.-.")
+            for(char in wl_itog){
+                if(char == '\n'){
+                    k_n--
                 }
-                wl += '\n'
-
-                L = i.toString().length + 1
-                S = wl.size
-                place = S - L
-                if (place == S) {
-                    break
+                if(k_n <=0){
+                    if(char == '\n'){
+                        a = (a.toInt()+1).toString()
+                        b = (a.toInt()-1).toString()
+                        print("-------------$a, $b-------------, $i-----")
+                        wl_itog_2 = wl_itog_2.replace("\n$a","\n$b" )
+                        println("$wl_itog_2, wlitog")
+                    }
                 }
-                //println( i2)
-                wl[place] = i2
-                i2 = (i2.toInt() + 1).toChar()
             }
-            //wl[S-1] = ' '
-            var s = ""
-            var i_last = 0
+            println(".,//,./,./,./,./,,././,/,/./,./,./,./,.")
+            var g = charArrayOf()
+            for(char in wl_itog_2){
+                g += char
+            }
+            g[0] = '1'
 
-            for (els in wl) {
-                i_last++
-                //if (i_last == S){
-                //   break
-                //}
-                s += els.toString()
+            print(wl_itog_2)
+            var wl_itog_3 = ""
+            for(char in g){
+                wl_itog_3 += char
             }
-            var s2 = ""
-            var a = s.count()
-            for (el in 0..a - 2) {
-                s2 += s[el].toString()
-            }
+
+
+            println(",./,.//.,./,/.,/,/./.,/.,/.,.//./.,/,./.,/.,/,./,./,./,.,/.,/.,/./,.,/./,.,/.")
+
 
             Users.update({ Users.login eq login }) {
-                it[wishlist] = s2
+                it[wishlist] = wl_itog_3
             }
-            println("////////////////////")
-            //delete last symbol
-            println(s2)
             val bbb = Users.select { Users.login.eq(login) }.single()
+
             bbb[wishlist]
+
+
         }
     }
 }
