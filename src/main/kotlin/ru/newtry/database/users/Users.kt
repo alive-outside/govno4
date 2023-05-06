@@ -108,6 +108,7 @@ object Users: Table("projusers") {
             var p1 = wl1.substring(0, iEnd)
             var p2 = wl1.substring(iStart, wl1.count())
             var wl_itog = (p1 + p2)
+            println(wl_itog)
             var k_n = 0
             k_n = wishnum.toInt() - 1
             var i = -1
@@ -123,7 +124,8 @@ object Users: Table("projusers") {
                         a = (a.toInt()+1).toString()
                         b = (a.toInt()-1).toString()
                         print("-------------$a, $b-------------, $i-----")
-                        wl_itog_2 = wl_itog_2.replace("\n$a","\n$b" )
+                        wl_itog_2 = wl_itog_2.replaceFirst("\n$a","\n$b" )
+                        //\n2
                         println("$wl_itog_2, wlitog")
                     }
                 }
