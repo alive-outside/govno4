@@ -38,35 +38,46 @@ object Users: Table("projusers") {
     fun addWish(wish: String, login: String): String {
         return transaction {
             val userModel = Users.select { Users.login.eq(login) }.single()
-            var wl: String = userModel[wishlist]
+
+            val wl: String = userModel[wishlist]
             var num: Int = 1
-            for (a in wl) {
-                if (a.toString() == "\n") {
+            for (char in wl) {
+                if (char == '\n') {
                     num += 1
                 }
             }
             Users.update({ Users.login eq login }) {
-                it[wishlist] = wl + "$num.$wish" + "\n"
-                //govno error
+                it[wishlist] = "$wl$num.$wish\n"
             }
-            val a = Users.select { Users.login.eq(login) }.single()
-            a[wishlist]
+            val newWl = Users.select { Users.login.eq(login) }.single()
+            newWl[wishlist]
         }
     }
 
     fun deleteWish(wishnum: String, login: String): String {
         return transaction {
             val userModel = Users.select { Users.login.eq(login) }.single()
-            var wl1: String = userModel[wishlist]
 
-            //var wl1 = "1.@\n2.@\n3.@\n4.@\n5.@\n6.@\n7.@\n8.@\n9.@\n10.@\n11.@\n12.@\n13.@\n14.@\n15.@\n"
+            var wl1: String = userModel[wishlist]
+            var aa = 0
+            for(char in wl1){
+                if(char == '\n'){
+                    aa++
+                }
+            }
+            if(wishnum == "1" && aa == 1){
+                Users.update({ Users.login eq login }) {
+                    it[wishlist] = ""
+                }
+                val bbb = Users.select { Users.login.eq(login) }.single()
+                return@transaction bbb[wishlist]
+            }
+
             var k = wishnum.toInt() - 1
             var k2 = k + 1
             var iEnd = 0
             var iStart = 0
             var i_wl = -1
-
-            //1..........................................................
             for (char in wl1) {
                 if (wishnum == "1") {
                     iEnd = 0
@@ -81,7 +92,6 @@ object Users: Table("projusers") {
                     break
                 }
             }
-            //2...........................................................
             var fl2 = false
             for (char in wl1) {
                 if (fl2) {
@@ -95,32 +105,15 @@ object Users: Table("projusers") {
                 }
                 iStart++
             }
-
-            //println("$iStart, ${wl1.count()}, $iEnd ")
-            //print("...........................")
             var p1 = wl1.substring(0, iEnd)
             var p2 = wl1.substring(iStart, wl1.count())
-            //print("$p1- p1, $p2 - p2")
-            var wl_itog = (p1 + p2) // with wrong nums
-            //println(".................")
-            //println(wl_itog)
-            //print("-------------------------")
-            //var wl_itog = "1.Domik\n2.NewCar\n3.Machinka\n"
-            var strs = wl_itog.split("\n").toTypedArray()
-            println(".................................")
-            var wl = charArrayOf()
-            var i2: Char = '1'
-            var L = 0
-            var place = 0
-            var S = 0
-            var str = ""
+            var wl_itog = (p1 + p2)
             var k_n = 0
             k_n = wishnum.toInt() - 1
             var i = -1
             var a:String = (wishnum.toInt()).toString()
             var b:String = (a.toInt()-2).toString()
             var wl_itog_2 = wl_itog
-            println("$wl_itog_2 .-.-.-.-.---.-.-.-.")
             for(char in wl_itog){
                 if(char == '\n'){
                     k_n--
@@ -135,31 +128,23 @@ object Users: Table("projusers") {
                     }
                 }
             }
-            println(".,//,./,./,./,./,,././,/,/./,./,./,./,.")
             var g = charArrayOf()
             for(char in wl_itog_2){
                 g += char
             }
             g[0] = '1'
-
-            print(wl_itog_2)
             var wl_itog_3 = ""
             for(char in g){
                 wl_itog_3 += char
             }
 
 
-            println(",./,.//.,./,/.,/,/./.,/.,/.,.//./.,/,./.,/.,/,./,./,./,.,/.,/.,/./,.,/./,.,/.")
-
 
             Users.update({ Users.login eq login }) {
                 it[wishlist] = wl_itog_3
             }
             val bbb = Users.select { Users.login.eq(login) }.single()
-
             bbb[wishlist]
-
-
         }
     }
 }
